@@ -4,7 +4,6 @@ import validator from 'validator';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { secret } from '../configs/constant';
-import { logger } from '../utils/logger';
 
 export interface IUser {
   email: string;
@@ -67,7 +66,7 @@ const UserSchema = new BaseSchema({
 });
 
 UserSchema.methods.generateAuthToken = async function () {
-  const token = jwt.sign({ _id: this._id.toString() }, secret);
+  const token = jwt.sign({ id: this._id.toString() }, secret);
   this.tokens = this.tokens.concat({ token });
   await this.save();
 
@@ -80,10 +79,7 @@ export interface IUserModel extends Model<IUserSchema> {
 }
 
 UserSchema.statics.findByCredentials = async (email, password) => {
-  console.log(email, '=-=-=-=-');
-
   const user = await UserModel.findOne({ email });
-  console.log(user, '-0-0-0-0-0-0');
 
   if (!user) {
     throw new Error('Unable to login');
