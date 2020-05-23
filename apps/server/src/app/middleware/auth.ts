@@ -3,7 +3,7 @@ import User from '../models/user';
 import { secret } from '../configs/constant';
 
 interface IJWT extends Object {
-  _id: string; // TODO: use virtualID?
+  id: string;
   tokens: Array<string>;
 }
 
@@ -12,7 +12,7 @@ export default async (req, res, next) => {
     const token = req.header('Authorization').replace('Bearer ', '');
     const decoded = jwt.verify(token, secret) as IJWT;
     const user = await User.findOne({
-      _id: decoded._id,
+      _id: decoded.id,
       'tokens.token': token,
     });
 

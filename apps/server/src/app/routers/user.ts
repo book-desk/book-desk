@@ -8,7 +8,7 @@ const user = new UserController();
 router
   .post('/api/users/sign-up', user.signUp)
   .post('/api/users/login', user.login)
-  .post('/api/users/logout', user.logout)
-  .get('/api/users', user.getAllUsers);
+  .post('/api/users/logout', auth, user.logout)
+  .get('/api/users', auth, user.getAllUsers);
 
 export default router;

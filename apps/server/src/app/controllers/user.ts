@@ -20,7 +20,6 @@ class UserController {
 
   async login(req, res) {
     try {
-      const user1 = await User.findOne({});
       const user = await User.findByCredentials(
         req.body.email,
         req.body.password
@@ -34,8 +33,8 @@ class UserController {
 
   async logout(req: IAuthRequest, res: Response) {
     try {
-      req.user.tokens = req.user.tokens.filter((token) => {
-        return token !== req.token;
+      req.user.tokens = req.user.tokens.filter((el: any) => {
+        return el.token !== req.token;
       });
       await req.user.save();
 
