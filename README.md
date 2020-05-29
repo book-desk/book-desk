@@ -74,3 +74,12 @@ Run `nx dep-graph` to see a diagram of the dependencies of your projects.
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+
+# Server app
+
+API is built on typescript, express, mongoose
+
+Run `start:server` to run server app. 
+
+[Postman collection for testing and debugging](https://app.getpostman.com/join-team?invite_code=18ec2f43ae89e0779d2fbc3f15e39cc9)

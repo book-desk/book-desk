@@ -4,13 +4,16 @@
  */
 import express from 'express';
 import userRouter from './app/routers/user';
+import companyRouter from './app/routers/company';
 import './app/db/mongoose';
 import { logger } from './app/utils/logger';
 
 const app = express();
 
 app.use(express.json());
-app.use(userRouter);
+app.use(express.urlencoded({ extended: true }));
+app.use('/api', userRouter);
+app.use('/api', companyRouter);
 
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to server!' });

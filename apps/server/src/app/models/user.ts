@@ -1,21 +1,21 @@
-import { Document, Model, model, Types, Query } from 'mongoose';
+import { Document, Model, model } from 'mongoose';
 import { BaseSchema } from '../db/BaseSchema';
 import validator from 'validator';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { secret } from '../configs/constant';
 
-export interface IUser {
+export interface User {
   email: string;
   firstName: string;
   lastName: string;
   role: string; // TODO: define enum
 }
 
-export interface IUserSchema extends Document, IUser {
+export interface UserSchema extends Document, User {
   password: string;
   tokens: string[];
-  findByCredentials(email: string, password: string): IUser;
+  findByCredentials(email: string, password: string): User;
   generateAuthToken(): string;
 }
 
@@ -74,8 +74,8 @@ UserSchema.methods.generateAuthToken = async function () {
 };
 
 // For model
-export interface IUserModel extends Model<IUserSchema> {
-  findByCredentials(email: string, password: string): IUserSchema;
+export interface UserModel extends Model<UserSchema> {
+  findByCredentials(email: string, password: string): UserSchema;
 }
 
 UserSchema.statics.findByCredentials = async (email, password) => {
@@ -94,7 +94,7 @@ UserSchema.statics.findByCredentials = async (email, password) => {
   return user;
 };
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre<UserSchema>('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 8);
   }
@@ -114,6 +114,6 @@ UserSchema.methods.toJSON = function () {
   return userObject;
 };
 
-const UserModel = model<IUserSchema, IUserModel>('User', UserSchema);
+const UserModel = model<UserSchema, UserModel>('User', UserSchema);
 
 export default UserModel;
