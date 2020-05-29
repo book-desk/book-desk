@@ -27,6 +27,10 @@ class CompanyController {
         new: true,
       });
 
+      if (!company) {
+        return res.status(404).send();
+      }
+
       res.status(200).send(company);
     } catch (error) {
       res.status(400).send(error);
@@ -45,10 +49,14 @@ class CompanyController {
   async getCompanyById(req: Request, res: Response) {
     try {
       const company = await Company.findById(req.params.id);
+      console.log(company);
+      if (!company) {
+        return res.status(404).send();
+      }
 
       res.status(200).send(company);
     } catch (e) {
-      res.status(404).send(e);
+      res.status(400).send(e);
     }
   }
 
@@ -56,7 +64,7 @@ class CompanyController {
     try {
       const company = await Company.findByIdAndDelete(req.params.id);
       if (!company) {
-        res.status(404).send();
+        return res.status(404).send();
       }
       res.send(company);
     } catch (e) {
