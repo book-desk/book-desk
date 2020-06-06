@@ -1,8 +1,8 @@
 import { Response, Request } from 'express';
-import User, { IUserSchema } from '../models/user';
+import User, { UserSchema } from '../models/user';
 
-interface IAuthRequest extends Request {
-  user: IUserSchema;
+interface AuthRequest extends Request {
+  user: UserSchema;
   token: string;
 }
 
@@ -11,7 +11,7 @@ class UserController {
     try {
       const user = new User(req.body);
       const token = await user.generateAuthToken();
-      user.save();
+      await user.save();
       res.status(201).send({ user, token });
     } catch (e) {
       res.status(400).send(e);
@@ -31,7 +31,7 @@ class UserController {
     }
   }
 
-  async logout(req: IAuthRequest, res: Response) {
+  async logout(req: AuthRequest, res: Response) {
     try {
       req.user.tokens = req.user.tokens.filter((el: any) => {
         return el.token !== req.token;
