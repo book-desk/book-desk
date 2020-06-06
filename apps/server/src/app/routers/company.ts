@@ -4,12 +4,11 @@ import CompanyController from '../controllers/company';
 const router = express.Router();
 const company = new CompanyController();
 
-//creating users by admin
 router
   .post('/company', auth, company.registerCompany)
   .put('/company/:id', auth, company.updateCompany)
   .get('/company/:id', auth, company.getCompanyById)
   .get('/company', auth, company.getAllCompanies)
-  .delete('/company/:id', company.deleteCompany);
+  .delete('/company/:id', auth, company.deleteCompany);
 
 export default router;
