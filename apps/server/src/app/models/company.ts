@@ -34,6 +34,9 @@ const CompanySchema = new BaseSchema({
   logo: {
     type: Buffer,
   },
+  cities: {
+    type: [String],
+  },
 });
 
 CompanySchema.methods.toJSON = function () {

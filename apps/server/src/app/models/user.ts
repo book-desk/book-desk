@@ -6,6 +6,7 @@ import * as jwt from 'jsonwebtoken';
 import { secret } from '../configs/constant';
 
 export interface User {
+  username: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -24,6 +25,13 @@ const UserSchema = new BaseSchema({
     type: String,
     required: true,
     trim: true,
+  },
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    trim: true,
+    lowercase: true,
   },
   lastName: {
     type: String,

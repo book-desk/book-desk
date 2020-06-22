@@ -83,3 +83,5 @@ API is built on typescript, express, mongoose
 Run `start:server` to run server app. 
 
 [Postman collection for testing and debugging](https://app.getpostman.com/join-team?invite_code=18ec2f43ae89e0779d2fbc3f15e39cc9)
+
+[Entity Relationship Diagram](https://drive.google.com/file/d/1Zt4sBN7W-QlP07biurUhcX9Vtds2CQrh/view?usp=sharing)
