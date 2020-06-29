@@ -5,17 +5,18 @@ import { secret } from '../configs/constant';
 
 export interface Office {
   name: string;
+  number: string;
   companyId: string;
   admin: string;
   logo?: Buffer;
   workplaces: Array<WorkPlace>;
-  city?: String;
-  address?: String;
+  city?: string;
+  address?: string;
 }
 
 export interface OfficeSchema extends Document, Office {}
 // For model
-export interface OfficeModel extends Model<OfficeSchema> {}
+export type OfficeModel = Model<OfficeSchema>;
 
 const OfficeSchema = new BaseSchema({
   name: {
@@ -32,6 +33,9 @@ const OfficeSchema = new BaseSchema({
   city: {
     type: String,
   },
+  number: {
+    type: String,
+  },
   address: {
     type: String,
   },
@@ -39,18 +43,16 @@ const OfficeSchema = new BaseSchema({
     type: String,
     required: true,
   },
-  workplaces: {
-    type: [WorkPlaceSchema],
-  },
+  workplaces: [WorkPlaceSchema],
 });
 
 OfficeSchema.methods.toJSON = function () {
-  const company = this.toObject();
+  const document = this.toObject();
 
-  delete company._id;
-  delete company.__v;
+  delete document._id;
+  delete document.__v;
 
-  return company;
+  return document;
 };
 
 const Office = model<OfficeSchema, OfficeModel>('Office', OfficeSchema);

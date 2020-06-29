@@ -4,7 +4,9 @@ import { BaseSchema } from '../db/BaseSchema';
 export interface WorkPlace {
   placeNumber: number;
   availability: boolean;
-  bookedDates: Object;
+  bookedDates: Record<string, any>;
+  companyId: string;
+  officeId: string;
   name?: string;
 }
 export interface WorkPlaceSchema extends Document, WorkPlace {}
@@ -15,7 +17,14 @@ export const WorkPlaceSchema = new BaseSchema({
     unique: true,
     required: true,
   },
-
+  companyId: {
+    type: String,
+    required: true,
+  },
+  officeId: {
+    type: String,
+    required: true,
+  },
   availability: {
     type: Boolean,
   },

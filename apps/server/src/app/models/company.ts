@@ -1,6 +1,5 @@
 import { Document, Model, model, Types, Query, Schema } from 'mongoose';
 import { BaseSchema } from '../db/BaseSchema';
-import { secret } from '../configs/constant';
 
 export interface Company {
   name: string;
@@ -10,7 +9,7 @@ export interface Company {
 
 export interface CompanySchema extends Document, Company {}
 // For model
-export interface CompanyModel extends Model<CompanySchema> {}
+export type CompanyModel = Model<CompanySchema>;
 
 const CompanySchema = new BaseSchema({
   name: {

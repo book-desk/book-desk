@@ -64,12 +64,11 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/web-client/.eslintrc",
             "tsConfig": [
               "apps/web-client/tsconfig.app.json",
               "apps/web-client/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/web-client/**"]
+            "exclude": ["**/node_modules/**", "!apps/web-client/**/*"]
           }
         },
         "test": {
@@ -104,9 +103,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/web-client-e2e/.eslintrc",
             "tsConfig": ["apps/web-client-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/web-client-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/web-client-e2e/**/*"]
           }
         }
       }
@@ -150,12 +148,11 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/server/.eslintrc",
             "tsConfig": [
               "apps/server/tsconfig.app.json",
               "apps/server/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/server/**"]
+            "exclude": ["**/node_modules/**", "!apps/server/**/*"]
           }
         },
         "test": {

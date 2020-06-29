@@ -4,13 +4,13 @@ import Office, { OfficeSchema } from '../models/office';
 class OfficeController {
   createWorkplaces(office: OfficeSchema, countOfNewPlaces: number) {
     return new Array(countOfNewPlaces).fill(1).forEach((el, i) => {
-      console.log(i, '+_+_+_+_+__+_+_');
-
       office.workplaces.push({
         placeNumber: i + 1,
         // name: generateRandomName, This should be functionality for generating funny roomName
         bookedDates: {},
         availability: true,
+        companyId: office.companyId,
+        officeId: office.id,
       });
     });
   }
@@ -21,23 +21,19 @@ class OfficeController {
         ...req.body,
         companyId: req.params.companyId,
       });
-      const workPlaces = this.createWorkplaces(
-        office,
-        req.body.countOfNewPlaces
-      );
+
+      this.createWorkplaces(office, req.body.countOfNewPlaces);
       await office.save();
 
       res.status(201).send(office);
     } catch (error) {
-      console.log(error);
-
       res.status(400).send(error);
     }
   };
 
   async updateOffice(req, res) {
     const updates = Object.keys(req.body).filter((el) => !(el === 'id'));
-    const allowedUpdates = ['name', 'logo'];
+    const allowedUpdates = ['name', 'logo', 'admin', 'city', 'address'];
     const isValidOperation = updates.every((u) => allowedUpdates.includes(u));
 
     if (!isValidOperation) {
@@ -45,15 +41,19 @@ class OfficeController {
     }
 
     try {
-      const company = await Office.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-      });
+      const doc = await Office.findByIdAndUpdate(
+        req.params.officeId,
+        req.body,
+        {
+          new: true,
+        }
+      );
 
-      if (!company) {
+      if (!doc) {
         return res.status(404).send();
       }
 
-      res.status(200).send(company);
+      res.status(200).send(doc);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -61,7 +61,9 @@ class OfficeController {
 
   async getAllCompanyOffices(req: Request, res: Response) {
     try {
-      const offices = await Office.find({ companyId: req.params.companyId });
+      const offices = await Office.find({
+        companyId: req.params.companyId,
+      });
 
       res.send(offices);
     } catch (e) {
@@ -70,7 +72,7 @@ class OfficeController {
   }
   async getOfficeById(req: Request, res: Response) {
     try {
-      const office = await Office.findById(req.params.id);
+      const office = await Office.findById(req.params.officeId);
       if (!office) {
         return res.status(404).send();
       }
@@ -83,7 +85,7 @@ class OfficeController {
 
   async deleteOffice(req, res) {
     try {
-      const office = await Office.findByIdAndDelete(req.params.id);
+      const office = await Office.findByIdAndDelete(req.params.officeId);
       if (!office) {
         return res.status(404).send();
       }
