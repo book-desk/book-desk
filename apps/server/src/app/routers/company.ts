@@ -14,8 +14,8 @@ router
   )
   .put(
     '/company/:id',
-    [check('companyId').exists()],
     auth,
+    [check('companyId').exists()],
     company.updateCompany
   )
   .get('/company/:id', auth, company.getCompanyById)
