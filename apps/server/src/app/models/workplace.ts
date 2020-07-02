@@ -1,4 +1,4 @@
-import { Document, Model, model, Types, Query, Schema } from 'mongoose';
+import { Document } from 'mongoose';
 import { BaseSchema } from '../db/BaseSchema';
 
 export interface WorkPlace {

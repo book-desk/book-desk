@@ -21,9 +21,10 @@ class UserController {
   async login(req, res) {
     try {
       const user = await User.findByCredentials(
-        req.body.email,
+        req.body.username,
         req.body.password
       );
+
       const token = await user.generateAuthToken();
       res.send({ user, token });
     } catch (e) {

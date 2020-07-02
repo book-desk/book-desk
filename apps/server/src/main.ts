@@ -6,6 +6,7 @@ import express from 'express';
 import userRouter from './app/routers/user';
 import companyRouter from './app/routers/company';
 import officeRouter from './app/routers/office';
+import { PORT } from "./app/configs/constant";
 import './app/db/mongoose';
 import { logger } from './app/utils/logger';
 
@@ -21,8 +22,7 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to server!' });
 });
 
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-  logger(`Listening at http://localhost:${port}/api`);
+const server = app.listen(PORT, () => {
+  logger(`Listening at http://localhost:${PORT}/api`);
 });
 server.on('error', (e) => logger(e));

@@ -1,7 +1,6 @@
-import { Document, Model, model, Types, Query, Schema } from 'mongoose';
+import { Document, Model, model } from 'mongoose';
 import { BaseSchema } from '../db/BaseSchema';
 import { WorkPlaceSchema, WorkPlace } from './workplace';
-import { secret } from '../configs/constant';
 
 export interface Office {
   name: string;
