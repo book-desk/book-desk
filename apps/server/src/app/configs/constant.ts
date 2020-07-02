@@ -1,1 +1,1 @@
-export const secret = process.env.SECRET || 'secret'; // TODO: remove default
+export const { SECRET = 'secret', PORT = 3333 } = process.env;

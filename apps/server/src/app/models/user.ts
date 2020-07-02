@@ -3,7 +3,7 @@ import { BaseSchema } from '../db/BaseSchema';
 import validator from 'validator';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { secret } from '../configs/constant';
+import { SECRET } from '../configs/constant';
 
 export interface User {
   username: string;
@@ -74,7 +74,7 @@ const UserSchema = new BaseSchema({
 });
 
 UserSchema.methods.generateAuthToken = async function () {
-  const token = jwt.sign({ id: this._id.toString() }, secret);
+  const token = jwt.sign({ id: this._id.toString(), expiresIn: '7d' }, SECRET);
   this.tokens = this.tokens.concat({ token });
   await this.save();
 
@@ -83,17 +83,20 @@ UserSchema.methods.generateAuthToken = async function () {
 
 // For model
 export interface UserModel extends Model<UserSchema> {
-  findByCredentials(email: string, password: string): UserSchema;
+  findByCredentials(username: string, password: string): UserSchema;
 }
 
-UserSchema.statics.findByCredentials = async (email, password) => {
-  const user = await UserModel.findOne({ email });
+UserSchema.statics.findByCredentials = async (username, password) => {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const user = await UserModel.findOne({
+    username: username.toLowerCase().trim(),
+  });
+
+  const isMatch = await bcrypt.compare(`${password}${SECRET}`, user.password);
 
   if (!user) {
     throw new Error('Unable to login');
   }
-
-  const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
     throw new Error('Unable to login');
@@ -104,7 +107,7 @@ UserSchema.statics.findByCredentials = async (email, password) => {
 
 UserSchema.pre<UserSchema>('save', async function (next) {
   if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 8);
+    this.password = await bcrypt.hash(`${this.password}${SECRET}`, 10);
   }
 
   next();
