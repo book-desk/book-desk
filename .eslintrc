@@ -34,8 +34,8 @@
     {
       "files": ["*.tsx"],
       "rules": {
-        "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/interface-name-prefix": "always"
+        "@typescript-eslint/no-unused-vars": 0,
+        "@typescript-eslint/interface-name-prefix": 2
       }
     }
   ]
