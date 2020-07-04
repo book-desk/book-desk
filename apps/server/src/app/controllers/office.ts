@@ -1,5 +1,8 @@
 import { Response, Request } from 'express';
 import Office, { OfficeSchema } from '../models/office';
+import BadRequestException from '../exceptions/BadRequestException';
+import NotFoundException from '../exceptions/NotFoundException';
+import ServerException from '../exceptions/ServerException';
 
 class OfficeController {
   createWorkplaces(office: OfficeSchema, countOfNewPlaces: number) {
@@ -15,7 +18,7 @@ class OfficeController {
     });
   }
 
-  registerOffice = async (req, res) => {
+  registerOffice = async (req, res, next) => {
     try {
       const office = new Office({
         ...req.body,
@@ -27,17 +30,17 @@ class OfficeController {
 
       res.status(201).send(office);
     } catch (error) {
-      res.status(400).send(error);
+      next(new BadRequestException('Bad Exception', error));
     }
   };
 
-  async updateOffice(req, res) {
+  async updateOffice(req, res, next) {
     const updates = Object.keys(req.body).filter((el) => !(el === 'id'));
     const allowedUpdates = ['name', 'logo', 'admin', 'city', 'address'];
     const isValidOperation = updates.every((u) => allowedUpdates.includes(u));
 
     if (!isValidOperation) {
-      return res.status(400).send({ error: 'Invalid updates!' });
+      return next(new BadRequestException('Invalid updates!'));
     }
 
     try {
@@ -50,48 +53,51 @@ class OfficeController {
       );
 
       if (!doc) {
-        return res.status(404).send();
+        return next(new NotFoundException(req.params.officeId));
       }
 
       res.status(200).send(doc);
     } catch (error) {
-      res.status(400).send(error);
+      next(new BadRequestException('Bad request', error));
     }
   }
 
-  async getAllCompanyOffices(req: Request, res: Response) {
+  async getAllCompanyOffices(req: Request, res: Response, next) {
     try {
       const offices = await Office.find({
         companyId: req.params.companyId,
       });
 
+      if (!offices) {
+        return next(new NotFoundException(req.params.companyId));
+      }
       res.send(offices);
     } catch (e) {
-      res.status(500).send(e);
+      next(new ServerException(e));
     }
   }
-  async getOfficeById(req: Request, res: Response) {
+  async getOfficeById(req: Request, res: Response, next) {
     try {
       const office = await Office.findById(req.params.officeId);
       if (!office) {
-        return res.status(404).send();
+        return next(new NotFoundException(req.params.officeId));
       }
 
       res.status(200).send(office);
     } catch (e) {
-      res.status(400).send(e);
+      next(new BadRequestException('Bad request', e));
     }
   }
 
-  async deleteOffice(req, res) {
+  async deleteOffice(req, res, next) {
     try {
       const office = await Office.findByIdAndDelete(req.params.officeId);
       if (!office) {
-        return res.status(404).send();
+        return next(new NotFoundException(req.params.officeId));
       }
       res.send(office);
     } catch (e) {
-      res.status(500).send(e);
+      next(new ServerException(e));
     }
   }
 }

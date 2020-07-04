@@ -6,9 +6,10 @@ import express from 'express';
 import userRouter from './app/routers/user';
 import companyRouter from './app/routers/company';
 import officeRouter from './app/routers/office';
-import { PORT } from "./app/configs/constant";
+import { PORT } from './app/configs/constant';
 import './app/db/mongoose';
 import { logger } from './app/utils/logger';
+import error from './app/middleware/errorHandler';
 
 const app = express();
 
@@ -25,4 +26,6 @@ app.get('/api', (req, res) => {
 const server = app.listen(PORT, () => {
   logger(`Listening at http://localhost:${PORT}/api`);
 });
+app.use(error);
+
 server.on('error', (e) => logger(e));
