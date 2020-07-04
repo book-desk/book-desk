@@ -2,7 +2,6 @@ import { Response, Request } from 'express';
 import Company from '../models/company';
 import BadRequestException from '../exceptions/BadRequestException';
 import NotFoundException from '../exceptions/NotFoundException';
-import HttpException from '../exceptions/HttpException';
 import ServerException from '../exceptions/ServerException';
 
 class CompanyController {
