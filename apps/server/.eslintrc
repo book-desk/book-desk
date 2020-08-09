@@ -1,5 +1,7 @@
 {
   "extends": "../../.eslintrc",
-  "rules": { "no-console": "error" },
+  "rules": {
+    "no-console": "error"
+  },
   "ignorePatterns": ["!**/*"]
 }
