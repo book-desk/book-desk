@@ -1,17 +1,7 @@
 import { Document, Model, model } from 'mongoose';
+import { Office } from '@book-desk/data';
 import { BaseSchema } from '../db/BaseSchema';
-import { WorkPlaceSchema, WorkPlace } from './workplace';
-
-export interface Office {
-  name: string;
-  number: string;
-  companyId: string;
-  admin: string;
-  logo?: Buffer;
-  workplaces: Array<WorkPlace>;
-  city?: string;
-  address?: string;
-}
+import { WorkPlaceSchema } from './workplace';
 
 export interface OfficeSchema extends Document, Office {}
 // For model

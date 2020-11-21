@@ -1,20 +1,12 @@
 import { Document, Model, model } from 'mongoose';
+import { User } from '@book-desk/data';
 import { BaseSchema } from '../db/BaseSchema';
 import validator from 'validator';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { SECRET } from '../configs/constant';
 
-export interface User {
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string; // TODO: define enum
-}
-
 export interface UserSchema extends Document, User {
-  password: string;
   tokens: string[];
   findByCredentials(email: string, password: string): User;
   generateAuthToken(): string;
