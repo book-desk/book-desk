@@ -93,6 +93,10 @@
     "ts-jest": "25.2.1",
     "ts-node": "^7.0.1",
     "tslint": "~6.0.0",
-    "typescript": "3.9.7"
+    "typescript": "3.9.7",
+    "@babel/core": "7.9.6",
+    "@babel/preset-env": "7.9.6",
+    "@babel/preset-typescript": "7.9.0",
+    "@babel/preset-react": "7.9.4"
   }
 }

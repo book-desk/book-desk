@@ -1,11 +1,6 @@
 import { Document, Model, model, Types, Query, Schema } from 'mongoose';
+import { Company } from '@book-desk/data';
 import { BaseSchema } from '../db/BaseSchema';
-
-export interface Company {
-  name: string;
-  companyId: string;
-  logo?: Buffer;
-}
 
 export interface CompanySchema extends Document, Company {}
 // For model

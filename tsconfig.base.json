@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@book-desk/ui": ["libs/ui/src/index.ts"]
+      "@book-desk/ui": ["libs/ui/src/index.ts"],
+      "@book-desk/data": ["libs/data/src/index.ts"]
     },
     "allowSyntheticDefaultImports": true
   },

@@ -1,10 +1,13 @@
 import * as mongoose from 'mongoose';
 import { logger } from '../utils/logger';
+import { CONNECTION_STRING } from '../configs/constant';
+
 mongoose
-  .connect('mongodb://127.0.0.1:27017/book-desk', {
+  .connect(CONNECTION_STRING, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .then(() => {
     logger('Successfully connected to db');

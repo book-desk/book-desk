@@ -1,29 +1,34 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
 
-import {createGlobalStyle} from 'styled-components';
-
-import star from './star.svg';
-import { Header } from "@book-desk/ui";
+import { Header } from '@book-desk/ui';
 import { BaseCSS } from 'styled-bootstrap-grid';
+
+import { ErrorBoundary } from './components';
+import { Home, Signup } from './containers';
 
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     margin: 0;
   }
-`
+`;
 
 export const App = () => {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./app.styled-components file.
-   */
-  return <React.Fragment>
-    <GlobalStyle></GlobalStyle>
-    <Header></Header>
-  </React.Fragment>
-}
-
+  return (
+    <ErrorBoundary>
+      <Router>
+        <Header />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/signup" component={Signup} />
+          </Switch>
+        </Suspense>
+      </Router>
+    </ErrorBoundary>
+  );
+};
 
 export default App;

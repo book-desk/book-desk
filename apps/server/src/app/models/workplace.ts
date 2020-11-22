@@ -1,14 +1,7 @@
 import { Document } from 'mongoose';
+import { WorkPlace } from '@book-desk/data';
 import { BaseSchema } from '../db/BaseSchema';
 
-export interface WorkPlace {
-  placeNumber: number;
-  availability: boolean;
-  bookedDates: Record<string, any>;
-  companyId: string;
-  officeId: string;
-  name?: string;
-}
 export interface WorkPlaceSchema extends Document, WorkPlace {}
 
 export const WorkPlaceSchema = new BaseSchema({
