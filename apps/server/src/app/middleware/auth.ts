@@ -2,6 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import User from '../models/user';
 import { SECRET } from '../configs/constant';
 import UnauthorizedException from '../exceptions/UnauthorizedException';
+import { logger } from '../utils/logger';
 
 interface JWT extends Object {
   id: string;
@@ -26,6 +27,8 @@ export default async (req, res, next) => {
     req.user = user;
     next();
   } catch (e) {
+    logger(e);
+
     next(new UnauthorizedException());
   }
 };
