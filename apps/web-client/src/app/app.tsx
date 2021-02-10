@@ -5,7 +5,7 @@ import { createGlobalStyle } from 'styled-components';
 import { Header } from '@book-desk/ui';
 import { BaseCSS } from 'styled-bootstrap-grid';
 
-import { ErrorBoundary } from './components';
+import  ErrorBoundary  from './components/error-boundary';
 import { Home, Signup } from './containers';
 
 const GlobalStyle = createGlobalStyle`
@@ -18,6 +18,8 @@ const GlobalStyle = createGlobalStyle`
 export const App = () => {
   return (
     <ErrorBoundary>
+      <BaseCSS/>
+      <GlobalStyle/>
       <Router>
         <Header />
         <Suspense fallback={<div>Loading...</div>}>
